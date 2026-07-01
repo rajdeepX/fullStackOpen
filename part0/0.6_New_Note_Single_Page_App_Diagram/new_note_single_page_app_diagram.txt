@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: The user writes a note and clicks the Save button
+    Note right of browser: JavaScript intercepts the form submit, adds the note locally to the list, and rerenders the UI immediately
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    Note right of browser: The request contains the new note as JSON: { "content": "SPA note", "date": "2026-07-01" }
+    Note left of server: The server receives the JSON data and saves the note
+    server-->>browser: HTTP status code 201 (Created)
+    deactivate server
+
+    Note right of browser: No further HTTP requests or page reloads are needed
