@@ -17,15 +17,15 @@ const App = () => {
     Array(anecdotes.length).fill(0)
   )
 
-  // console.log(votes);
+  let max = Math.max(...votes)
+  let maxIndex = votes.indexOf(max)
+  let maxVotes = votes[maxIndex]
 
   const voteAnecdote = () =>{
     let copyVotes = [...votes]
     copyVotes[selected] += 1;
     setVotes(copyVotes)
-    console.log(votes);
   }
-
 
   const shuffleAnecdots = () =>{
     let randomIndex = Math.floor(Math.random() * (anecdotes.length))
@@ -35,6 +35,7 @@ const App = () => {
   return (
     <>
       <div>
+        <h1>Anecdote of the day</h1>
         <p>
           {anecdotes[selected]}
         </p>
@@ -44,6 +45,10 @@ const App = () => {
       </div>
       <button onClick={voteAnecdote}>Vote</button>
       <button onClick={shuffleAnecdots}>next anecdote</button>
+      <br />
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[maxIndex]}</p>
+      <p>has {maxVotes} votes</p>
     </>
   )
 }
