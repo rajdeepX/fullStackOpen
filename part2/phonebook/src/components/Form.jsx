@@ -1,3 +1,4 @@
+import contactServices from "../services/contacts.js"
 
 const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum}) => {
 
@@ -19,14 +20,16 @@ const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum}) => 
       return;
     }
 
-    const newPerson = {
+    const newPersonContact = {
       name: newName,
       number: newNum
     }
 
-    setPersons([...persons, newPerson ])
-    setNewName("")
-    setNewNum("")
+    contactServices.create(newPersonContact).then(newPerson => {
+      setPersons([...persons, newPerson ])
+      setNewName("")
+      setNewNum("")
+    })
   }
 
   return (
