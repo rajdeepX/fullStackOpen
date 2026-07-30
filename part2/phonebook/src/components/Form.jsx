@@ -13,10 +13,19 @@ const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum}) => 
   const handleAddPerson = (e) => {
     e.preventDefault();
 
-    const isSame = persons.some(person => person.name === newName)
+    const existingContact = persons.find(person => person.name === newName)
 
-    if (isSame) {
-      alert(`${newName} is already added to phonebook`)
+    if (existingContact) {
+      const confirmed = window.confirm(`${newName} already exist. Do you want to update the old number?`)
+
+      if (confirmed) {
+        const updatedPerson = {...existingContact, number: newNum}
+        contactServices.update(existingContact.id, updatedPerson).then(returnedContact => {
+          setPersons(persons.map(person => person.id === existingContact.id ? returnedContact : person))
+          setNewName("")
+          setNewNum("")
+        })
+      }
       return;
     }
 
