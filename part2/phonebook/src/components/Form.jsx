@@ -24,6 +24,9 @@ const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum}) => 
           setPersons(persons.map(person => person.id === existingContact.id ? returnedContact : person))
           setNewName("")
           setNewNum("")
+        }).catch(err => {
+          alert(`Failed to update contact of ${newName}`)
+          console.log(err);
         })
       }
       return;
