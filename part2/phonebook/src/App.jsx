@@ -3,14 +3,16 @@ import axios from "axios"
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 
 const App = () => {
   const [persons, setPersons] = useState([])
-
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
+  const [successMsg, setSuccessMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
     axios
@@ -23,6 +25,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification
+        errorMsg={errorMsg}
+        successMsg={successMsg}
+      />
 
       <Filter searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
@@ -34,10 +40,12 @@ const App = () => {
         setNewName={setNewName}
         newNum={newNum}
         setNewNum={setNewNum}
+        setErrorMsg={setErrorMsg}
+        setSuccessMsg={setSuccessMsg}
       />
       <h2>Numbers</h2>
 
-      <Persons persons={persons} searchQuery={searchQuery} setPersons={setPersons}/>
+      <Persons persons={persons} searchQuery={searchQuery} setPersons={setPersons} setSuccessMsg={setSuccessMsg} setErrorMsg={setErrorMsg} />
     </div>
   )
 }

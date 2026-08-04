@@ -1,6 +1,6 @@
 import contactServices from "../services/contacts.js"
 
-const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum}) => {
+const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum, setErrorMsg, setSuccessMsg}) => {
 
   const handleAddName = (e) => {
     setNewName(e.target.value)
@@ -22,11 +22,17 @@ const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum}) => 
         const updatedPerson = {...existingContact, number: newNum}
         contactServices.update(existingContact.id, updatedPerson).then(returnedContact => {
           setPersons(persons.map(person => person.id === existingContact.id ? returnedContact : person))
+          setSuccessMsg(`Updated ${newName}`)
           setNewName("")
           setNewNum("")
+          setTimeout(()=>{
+            setSuccessMsg(null)
+          }, 3000)
         }).catch(err => {
-          alert(`Failed to update contact of ${newName}`)
-          console.log(err);
+          setErrorMsg(`Failed to update ${newName}`)
+          setTimeout(()=>{
+            setErrorMsg(null)
+          }, 3000)
         })
       }
       return;
@@ -39,8 +45,17 @@ const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum}) => 
 
     contactServices.create(newPersonContact).then(newPerson => {
       setPersons([...persons, newPerson ])
+      setSuccessMsg(`Added ${newName}`)
       setNewName("")
       setNewNum("")
+      setTimeout(()=>{
+        setSuccessMsg(null)
+      }, 3000)
+    }).catch(err => {
+      setErrorMsg(`Failed to add ${newName}`)
+      setTimeout(()=>{
+        setErrorMsg(null)
+      }, 3000)
     })
   }
 
