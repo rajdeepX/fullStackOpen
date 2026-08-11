@@ -69,6 +69,15 @@ app.post("/api/persons", (req, res) => {
   // console.log(randomId);
 
   const body = req.body;
+
+  if(!body.name || !body.number) {
+    res.status(400).json({"error": "Must contain both name and number"})
+  }
+
+  const existingUsers = persons.filter(person => person.name === body.name)
+  console.log(existingUsers);
+
+
   const newPerson = {
     "id": `${randomId}`,
     "name": "Random Person",
