@@ -71,7 +71,7 @@ app.post("/api/persons", (req, res) => {
   const body = req.body;
   const newPerson = {
     "id": `${randomId}`,
-    "content": "Random Person",
+    "name": "Random Person",
     "number": "4547897895"
   }
 
