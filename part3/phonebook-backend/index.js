@@ -71,17 +71,20 @@ app.post("/api/persons", (req, res) => {
   const body = req.body;
 
   if(!body.name || !body.number) {
-    res.status(400).json({"error": "Must contain both name and number"})
+    return res.status(400).json({"error": "Must contain both name and number"})
   }
 
-  const existingUsers = persons.filter(person => person.name === body.name)
-  console.log(existingUsers);
+  const existingNames = persons.some(person => person.name === body.name)
+  // console.log(existingNames);
+  if(existingNames) {
+    return res.status(409).json({"error": "name must be unique"})
+  }
 
 
   const newPerson = {
     "id": `${randomId}`,
-    "name": "Random Person",
-    "number": "4547897895"
+    "name": `${body.name}`,
+    "number": `${body.number}`
   }
 
   persons = persons.concat(newPerson)
