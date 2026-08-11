@@ -1,4 +1,5 @@
-const express = require("express")
+const express = require("express");
+const generateRandomId = require("./utils/generateRandomId");
 const app = express();
 
 app.use(express.json())
@@ -59,6 +60,24 @@ app.delete("/api/person/:id", (req, res) => {
   persons = persons.filter(person => person.id !== id)
 
   res.status(204).end();
+})
+
+app.post("/api/persons", (req, res) => {
+  const existingIds = persons.map(person => person.id);
+  // console.log(existingIds);
+  const randomId = generateRandomId(10, 1000, existingIds);
+  // console.log(randomId);
+
+  const body = req.body;
+  const newPerson = {
+    "id": `${randomId}`,
+    "content": "Random Person",
+    "number": "4547897895"
+  }
+
+  persons = persons.concat(newPerson)
+  res.json(newPerson)
+
 })
 
 const PORT = 3000;
