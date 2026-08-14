@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import axios from "axios"
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
 import Notification from './components/Notification'
+import personService from "./services/contacts.js"
 
 
 const App = () => {
@@ -15,11 +15,10 @@ const App = () => {
   const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/api/persons")
-      .then(response => {
-        setPersons(response.data)
-      })
+    personService
+    .getAll().then(initialPersons => {
+      setPersons(initialPersons)
+    })
   }, []);
 
   return (
