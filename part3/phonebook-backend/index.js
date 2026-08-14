@@ -1,8 +1,10 @@
 const express = require("express");
-const morgan = require("morgan")
+const morgan = require("morgan");
+const cors = require("cors")
 const generateRandomId = require("./utils/generateRandomId");
 const app = express();
 
+app.use(cors())
 app.use(express.json())
 
 morgan.token("body", (req)=> {
