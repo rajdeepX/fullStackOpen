@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
+require("dotenv").config()
 const cors = require("cors")
+const Person = require("./models/person.js")
 const generateRandomId = require("./utils/generateRandomId");
 const app = express();
 
@@ -50,7 +52,9 @@ app.get("/api/info", (req, res) => {
 })
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons).end();
+  Person.find({}).then(persons => {
+    res.json(persons)
+  })
 })
 
 app.get("/api/person/:id", (req, res) => {
