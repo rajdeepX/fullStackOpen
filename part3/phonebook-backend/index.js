@@ -77,10 +77,6 @@ app.delete("/api/person/:id", (req, res) => {
 })
 
 app.post("/api/persons", (req, res) => {
-  const existingIds = persons.map(person => person.id);
-  // console.log(existingIds);
-  const randomId = generateRandomId(10, 1000, existingIds);
-  // console.log(randomId);
 
   const body = req.body;
 
@@ -88,21 +84,20 @@ app.post("/api/persons", (req, res) => {
     return res.status(400).json({"error": "Must contain both name and number"})
   }
 
-  const existingNames = persons.some(person => person.name === body.name)
-  // console.log(existingNames);
-  if(existingNames) {
-    return res.status(409).json({"error": "name must be unique"})
-  }
+  // const existingNames = persons.some(person => person.name === body.name)
+  // // console.log(existingNames);
+  // if(existingNames) {
+  //   return res.status(409).json({"error": "name must be unique"})
+  // }
 
+  const person = new Person({
+    "name": body.name,
+    "number": body.number
+  })
 
-  const newPerson = {
-    "id": `${randomId}`,
-    "name": `${body.name}`,
-    "number": `${body.number}`
-  }
-
-  persons = persons.concat(newPerson)
-  res.json(newPerson)
+  person.save().then(savedPerson => {
+    res.json(savedPerson)
+  })
 
 })
 
