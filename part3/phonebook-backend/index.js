@@ -103,6 +103,30 @@ app.post("/api/persons", (req, res) => {
 
 })
 
+app.put("/api/persons/:id", (req, res, next) => {
+  const id = req.params.id;
+  const {name, number} = req.body
+  // console.log(name, number);
+
+  Person.findById(id).then(person => {
+    // console.log(person);
+
+    if(!person){
+      res.status(404)
+    }
+
+    if(person.name === name){
+      person.number = number
+
+      return person.save().then(savedContact => {
+        res.json(savedContact)
+      }).catch(error => {
+        next(error)
+      })
+    }
+  })
+})
+
 const errorHandler = (error, req, res, next) => {
   console.log(error.message);
   if(error.name === "CastError"){
