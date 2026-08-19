@@ -40,15 +40,18 @@ let persons = [
 ]
 
 app.get("/api/info", (req, res) => {
-  const entries = persons.length
-  const message = `Phonebook has info for ${entries} ${entries === 1 ? "person" : "people"}.`
-  const time = new Date()
-  res.send(`
-    <div>
-      <p>${message}</p>
-      <p>${time}</p>
-    </div>
+  Person.find({}).then(persons => {
+    console.log(persons.length);
+    const entries = persons.length
+    const message = `Phonebook has info for ${entries} ${entries === 1 ? "person" : "people"}.`
+    const time = new Date()
+    res.send(`
+      <div>
+        <p>${message}</p>
+        <p>${time}</p>
+      </div>
     `);
+  })
 })
 
 app.get("/api/persons", (req, res) => {
@@ -59,14 +62,15 @@ app.get("/api/persons", (req, res) => {
 
 app.get("/api/persons/:id", (req, res) => {
   const id = req.params.id;
-  const person = persons.find(person => person.id === id);
-  if(person) {
-    res.json(person)
-  }
+  Person.findById(id).then(person => {
+    if(person) {
+      res.json(person)
+    }
 
-  if(!person) {
-    res.status(404).end();
-  }
+    if(!person) {
+      res.status(404).end();
+    }
+  })
 })
 
 app.delete("/api/persons/:id", (req, res, next) => {
