@@ -51,8 +51,10 @@ const Form = ({persons, setPersons, newName, setNewName, newNum, setNewNum, setE
       setTimeout(()=>{
         setSuccessMsg(null)
       }, 3000)
-    }).catch(err => {
-      setErrorMsg(`Failed to add ${newName}`)
+    }).catch(error => {
+      // console.log(error.response);
+
+      setErrorMsg(`${error.response.data.error}`)
       setTimeout(()=>{
         setErrorMsg(null)
       }, 3000)
