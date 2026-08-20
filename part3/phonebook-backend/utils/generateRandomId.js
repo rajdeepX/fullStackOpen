@@ -1,11 +1,11 @@
 const generateRandomId = (min, max, existingId) => {
-  let id;
+  let id
   do {
-    const randomId = Math.floor(Math.random() * (max - min + 1)) + min;
+    const randomId = Math.floor(Math.random() * (max - min + 1)) + min
     id = String(randomId)
   } while (existingId.includes(id))
 
-  return id;
+  return id
 }
 
-module.exports = generateRandomId;
+module.exports = generateRandomId
